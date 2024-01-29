@@ -1,20 +1,79 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { PaperProvider } from "react-native-paper";
 
-export default function App() {
+import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
+
+import { RootParamList } from "./types/Navigation";
+
+import HomeScreen from "./screens/HomeScreen";
+import JobsScreen from "./screens/JobsScreen";
+import InvoiceScreen from "./screens/InvoiceScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+
+const Tab = createBottomTabNavigator<RootParamList>();
+
+function TabNavigator() {
   return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#fc336c",
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color, size }) => {
+            return <Ionicons name="home" size={size} color={color} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Jobs"
+        component={JobsScreen}
+        options={{
+          tabBarLabel: "Jobs",
+          tabBarIcon: ({ color, size }) => {
+            return <Ionicons name="briefcase" size={size} color={color} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Invoice"
+        component={InvoiceScreen}
+        options={{
+          tabBarLabel: "Invoices",
+          tabBarIcon: ({ color, size }) => {
+            return <Ionicons name="layers" size={size} color={color} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => {
+            return <Ionicons name="person" size={size} color={color} />;
+          },
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default function App() {
+  return (
+    <>
+      <PaperProvider>
+        <NavigationContainer>
+          <TabNavigator />
+        </NavigationContainer>
+      </PaperProvider>
+      <StatusBar style="dark" />
+    </>
+  );
+}
